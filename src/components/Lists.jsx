@@ -1,20 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import './Lists.css';
 
-const Lists = () => {
-  const [todoLists, setTodoLists] = useState([]);
 
-  useEffect(() => {
-    const todoListsFromLocalStorage = JSON.parse(localStorage.getItem('TodoList'));
-    if (todoListsFromLocalStorage) {
-      setTodoLists(todoListsFromLocalStorage);
-    }
-  }, []);
-
+const Lists = ({ todoLists }) => {
   if (todoLists.length === 0) {
     return (
       <div className='lists-wrapper'>
-        <h3>No lists</h3>
+        <h3 style={{ textAlign: 'center' }}>No lists yet...</h3>
       </div>
     );
   }
