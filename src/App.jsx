@@ -1,35 +1,41 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Lists from './components/Lists';
 import Form from './components/Form';
 
-
-
 const App = () => {
-  const [todoLists, setTodoLists] = useState([{name:'Start', tasks:[]}]);
+  const [todoLists, setTodoLists] = useState([]);
 
   useEffect(() => {
-    const todoListsFromLocalStorage = JSON.parse(localStorage.getItem('test'));
-    if (todoListsFromLocalStorage) {
-      setTodoLists(todoListsFromLocalStorage);
+    try {
+      const todoListsFromLocalStorage = localStorage.getItem('test');
+      if (todoListsFromLocalStorage) {
+        const parsedTodoLists = JSON.parse(todoListsFromLocalStorage);
+        setTodoLists(parsedTodoLists);
+      }
+    } catch (error) {
+      console.error('Error parsing todoLists from localStorage:', error);
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('test', JSON.stringify(todoLists));
-  }, []);
+    try {
+      localStorage.setItem('test', JSON.stringify(todoLists));
+    } catch (error) {
+      console.error('Error saving todoLists to localStorage:', error);
+    }
+  }, [todoLists]);
 
   return (
     <div className='container'>
       <div className='lists'>
         <div className='form-container'>
-          <Form setTodoLists={setTodoLists} todoLists={todoLists} />
+          <Form setTodoLists={setTodoLists} />
         </div>
         <div className='lists-container'>
           <Lists todoLists={todoLists} />
         </div>
       </div>
-
       <div className='todos'>2</div>
     </div>
   );

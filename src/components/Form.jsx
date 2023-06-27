@@ -16,16 +16,12 @@ const Form = ({ setTodoLists, todoLists }) => {
   };
 
   useEffect(() => {
-    const todoListsFromLocalStorage = JSON.parse(localStorage.getItem('test'));
-    if (todoListsFromLocalStorage) {
-      setList(todoListsFromLocalStorage);
-      setTodoLists(todoListsFromLocalStorage);
-    }
-  }, []);
+    setList(todoLists); // Update the list state when todoLists prop changes
+  }, [todoLists]);
 
   useEffect(() => {
     localStorage.setItem('test', JSON.stringify(list));
-  }, [list, setTodoLists]);
+  }, [list]);
 
   return (
     <div className='form-container'>
